@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getAgents, getMaps, getWeapons } from "./api";
-import Word from "./components/word";
+import Word from "./components/Word";
 import "./App.css";
 
 interface DisplayName {
