@@ -18,6 +18,8 @@ function App() {
 	const [randomNumber, setRandomNumber] = useState<number>(0);
 	const [selectedCategory, setSelectedCategory] = useState<keyof NamesObj | null>(null);
 	const [selectedWord, setSelectedWord] = useState<string>("");
+	const [inputValue, setInputValue] = useState<string>("");
+	const [guess, setGuess] = useState<string[]>([]);
 
 	useEffect(() => {
 		const fetchNames = async () => {
@@ -57,19 +59,45 @@ function App() {
 					<h1>Selecionar categoria</h1>
 				</div>
 				<div>
-					<button onClick={() => setSelectedCategory("agents")}>Agentes</button>
-					<button onClick={() => setSelectedCategory("maps")}>Mapas</button>
-					<button onClick={() => setSelectedCategory("weapons")}>Armas</button>
+					<button
+						disabled={selectedCategory !== "agents" && selectedCategory !== null}
+						onClick={() => setSelectedCategory("agents")}
+					>
+						Agentes
+					</button>
+					<button
+						disabled={selectedCategory !== "maps" && selectedCategory !== null}
+						onClick={() => setSelectedCategory("maps")}
+					>
+						Mapas
+					</button>
+					<button
+						disabled={selectedCategory !== "weapons" && selectedCategory !== null}
+						onClick={() => setSelectedCategory("weapons")}
+					>
+						Armas
+					</button>
 				</div>
-				<Word selectedWord={selectedWord} />
-				<button
-					onClick={() => {
-						console.log("selectedWord", selectedWord);
-						window.location.href = "";
-					}}
-				>
-					Gerar palavra
-				</button>
+				<Word selectedWord={selectedWord} guess={guess} />
+				<div className="guess-container">
+					<input
+						className="letter-input"
+						type="text"
+						maxLength={1}
+						value={inputValue}
+						onChange={(e) => {
+							setInputValue(e.target.value.toLowerCase());
+						}}
+					/>
+					<button
+						onClick={() => {
+							setGuess([...guess, inputValue]);
+							setInputValue("");
+						}}
+					>
+						Guess
+					</button>
+				</div>
 			</div>
 		</>
 	);
